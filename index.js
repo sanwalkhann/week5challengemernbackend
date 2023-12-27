@@ -11,13 +11,11 @@ require("dotenv").config();
 const app = express();
 
 app.use(
-  cors({
-    origin: "https://your-frontend-app.vercel.app", 
-    credentials: true,
-  })
+  cors()
 );
 
-app.options("*", cors());
+
+// app.options("*", cors());
 
 app.use(bodyParser.json());
 app.use(passport.initialize());
