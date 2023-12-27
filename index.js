@@ -12,10 +12,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3500",
+    origin: "*",
     credentials: true,
   })
 );
+
 
 // Handle preflight requests
 app.options("*", cors());
