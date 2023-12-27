@@ -10,6 +10,14 @@ require("dotenv").config();
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "https://hackathonweekfivesanwal.vercel.app",
+    credentials: true,
+  })
+);
+
+
 // Handle preflight requests
 app.options("*", cors());
 
