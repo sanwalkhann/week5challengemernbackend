@@ -12,13 +12,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://your-frontend-app.vercel.app", 
     credentials: true,
   })
 );
 
-
-// Handle preflight requests
 app.options("*", cors());
 
 app.use(bodyParser.json());
