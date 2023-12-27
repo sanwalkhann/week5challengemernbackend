@@ -10,22 +10,18 @@ exports.signup = async (req, res) => {
     const { name, email, password } = req.body;
     console.log('Received signup request22');
 
-    // Check if the email is already registered
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     
 }
 
-    // Create a new user
     const newUser = new User({ name, email, password });
    
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
 
-    // Save the user to the database
     await newUser.save();
    
 
@@ -39,19 +35,16 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Check the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Generate a JWT token
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "1h" });
 
     res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });

@@ -2,12 +2,13 @@ const Task = require("../Model/tasks");
 exports.createTask = async (req, res) => {
     try {
       console.log('Creating Task:', req.body);
-      const { title, description } = req.body;
+      const { title, description , priority } = req.body;
   
       const newTask = new Task({
         user: req.user._id,
         title,
         description,
+        priority
       });
   
       await newTask.save();
@@ -44,12 +45,13 @@ exports.getTaskById = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    const { title, description, completed } = req.body;
+    const { title, description, completed , priority } = req.body;
 
     await Task.findByIdAndUpdate(req.params.id, {
       title,
       description,
       completed,
+      priority
     });
 
     res.status(200).json({ message: "Task updated successfully" });
