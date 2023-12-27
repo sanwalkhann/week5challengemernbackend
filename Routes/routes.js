@@ -1,15 +1,15 @@
 // routes/tasks.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const taskController = require('../controller/tasksController');
-const authMiddleware = require('../middlewares/authmiddleware');
+const taskController = require("../controller/tasksController");
+const passport = require("../config/passport");
 
-router.use(authMiddleware.authenticateToken);
+router.use(passport.authenticate("jwt", { session: false }));
 
-router.get('/', taskController.getAllTasks);
-router.post('/', taskController.createTask);
-router.get('/:id', taskController.getTaskById);
-router.put('/:id', taskController.updateTask);
-router.delete('/:id', taskController.deleteTask);
+router.get("/", taskController.getAllTasks);
+router.post("/", taskController.createTask);
+router.get("/:id", taskController.getTaskById);
+router.put("/:id", taskController.updateTask);
+router.delete("/:id", taskController.deleteTask);
 
 module.exports = router;

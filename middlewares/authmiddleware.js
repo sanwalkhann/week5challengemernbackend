@@ -1,19 +1,30 @@
 // middlewares/authmiddleware.js
-const jwt = require('jsonwebtoken');
-const { secret } = require('../utils');
+const jwt = require("jsonwebtoken");
+const { secret } = require("../utils");
 
 exports.authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization');
+    const token = req.header("Authorization");
+  
+    console.log("Received token:", token);
+  
 
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized - Token not provided' });
-  }
+    const tokenWithoutBearer = token.replace("Bearer ", "");
 
-  jwt.verify(token, secret, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Forbidden - Invalid token' });
+    console.log("Received token in bearer:", tokenWithoutBearer);
+
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - Token not provided" });
     }
-    req.user = user;
-    next();
-  });
-};
+  
+    jwt.verify(token, secret, (err, user) => {
+      if (err) {
+        console.error("Token verification error:", err);
+        return res.status(403).json({ message: "Forbidden - Invalid token" });
+      }
+      req.user = user;
+      next();
+    });
+  };
