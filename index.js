@@ -6,16 +6,26 @@ const { connectDB } = require("./config/db");
 const categoryRoutes = require("./Model/categories");
 require("./config/passport");
 require('./auth')
-// Load environment variables from a .env file if available
 require('dotenv').config();
 
 const app = express();
 // to handler cors
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = ['*']; 
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200); // Respond to preflight requests immediately
+  } else {
+    next();
+  }
 });
 
 app.use(bodyParser.json());
