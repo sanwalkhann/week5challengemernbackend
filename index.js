@@ -11,21 +11,10 @@ require('dotenv').config();
 const app = express();
 // to handler cors
 app.use((req, res, next) => {
-  const allowedOrigins = ['*']; 
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200); // Respond to preflight requests immediately
-  } else {
-    next();
-  }
+  next();
 });
 
 app.use(bodyParser.json());
