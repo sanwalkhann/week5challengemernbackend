@@ -14,8 +14,13 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
   },
+  likedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);
